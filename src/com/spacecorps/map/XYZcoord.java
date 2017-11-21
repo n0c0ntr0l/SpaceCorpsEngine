@@ -20,31 +20,31 @@ public class XYZcoord {
         this.xAbsolute = x;
         this.yAbsolute = y;
         this.zAbsolute = z;
-        this.xExact = (double)x;
-        this.yExact = (double)y;
-        this.zExact = (double)z;
+        this.xExact = (double) x;
+        this.yExact = (double) y;
+        this.zExact = (double) z;
 
         calculatePositionFromCentre();
     }
 
-    public XYZcoord(double x, double y, double z){
+    public XYZcoord(double x, double y, double z) {
         this.xExact = x;
         this.yExact = y;
         this.zExact = z;
-        this.xAbsolute = (int)x;
-        this.yAbsolute = (int)y;
-        this.zAbsolute = (int)z;
+        this.xAbsolute = (int) x;
+        this.yAbsolute = (int) y;
+        this.zAbsolute = (int) z;
         this.calculatePositionFromCentre();
 
     }
 
-    public XYZcoord(double[] x){
+    public XYZcoord(double[] x) {
         this.xExact = x[0];
         this.yExact = x[1];
         this.zExact = x[2];
-        this.xAbsolute = (int)x[0];
-        this.yAbsolute = (int)x[1];
-        this.zAbsolute = (int)x[2];
+        this.xAbsolute = (int) x[0];
+        this.yAbsolute = (int) x[1];
+        this.zAbsolute = (int) x[2];
         this.calculatePositionFromCentre();
 
     }
@@ -114,11 +114,14 @@ public class XYZcoord {
     }
 
 
-    public boolean equals(XYZcoord xyZcoord){
-        boolean result = false;
-        for(int i = 0; i < 2; i++){
-            if(this.integerMatrix()[i])
+    public boolean equals(XYZcoord xyZcoord) {
+        boolean result = true;
+        for (int i = 0; i < 2; i++) {
+            if (!(this.integerMatrix()[i] == xyZcoord.integerMatrix()[i])) {
+                result = false;
+            }
         }
+        return result;
     }
 
 
