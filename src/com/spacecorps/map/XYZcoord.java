@@ -1,6 +1,5 @@
 package com.spacecorps.map;
 
-import static com.spacecorps.map.GalaxyMapTop.HALFPOINT;
 
 public class XYZcoord {
 
@@ -51,9 +50,9 @@ public class XYZcoord {
 
 
     private void calculatePositionFromCentre() {
-        xFromCenter = xAbsolute - HALFPOINT;
-        yFromCenter = yAbsolute - HALFPOINT;
-        zFromCenter = zAbsolute - HALFPOINT;
+        xFromCenter = xAbsolute - GalaxyMapTop.HALFPOINT;
+        yFromCenter = yAbsolute - GalaxyMapTop.HALFPOINT;
+        zFromCenter = zAbsolute - GalaxyMapTop.HALFPOINT;
     }
 
     private double calculateExactDistance(XYZcoord xyzCoord) {
@@ -115,10 +114,12 @@ public class XYZcoord {
 
 
     public boolean equals(XYZcoord xyZcoord){
-        boolean result = false;
         for(int i = 0; i < 2; i++){
-            if(this.integerMatrix()[i])
+            if(this.integerMatrix()[i] != xyZcoord.integerMatrix()[i]){
+                return false;
+            }
         }
+        return true;
     }
 
 

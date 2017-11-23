@@ -66,9 +66,23 @@ public class Ship {
 
     public void moveShip(){
         XYZcoord newPosition = Util.getPositionGivenSpeedAndVelocityDirection(this.shipMovementSpeed,this.location,this.shipDestination);
-
-
-
+        
+        if(!this.isShipTraveling){
+        	this.isShipTraveling = true;
+        	distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+        	this.distanceToTargetCurrent = distanceToTargetTotal;
+        } else {
+        	distanceToTargetCurrent = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+        }
+        if(newPosition.equals(this.shipDestination)){
+        	this.isShipTraveling = false;
+        	this.shipOrigin = newPosition;
+        }
+        this.location = newPosition;
+    }
+    
+    public boolean isShipTravelling(){
+    	return isShipTraveling;
     }
 
 
