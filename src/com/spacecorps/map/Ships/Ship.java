@@ -24,16 +24,17 @@ public class Ship {
     private double distanceToTargetCurrent;
 
 
+
     private TargetStatus targetStatus;
 
-    public Ship(String shipID, Player shipOwner, int x, int y, int z, int shipHullTotal, int shipShieldTotal, int shipHullDamagePerSecond, int shipShieldDamagePerSecond, int shipMovementSpeed) {
+    public Ship(String shipID, Player shipOwner, int x, int y, int z, int shipHullTotal, int shipShieldTotal, int shipHullDamagePerSecond, int shipShieldDamagePerSecond, int shipMovementSpeed){
         this.shipID = shipID;
         this.shipOwner = shipOwner;
         this.shipHullTotal = shipHullTotal;
         this.shipShieldTotal = shipShieldTotal;
         this.shipHullCurrent = shipHullTotal;
         this.shipShieldCurrent = shipShieldTotal;
-        location = new XYZcoord(x, y, z);
+        location = new XYZcoord(x,y,z);
         this.shipHullDamagePerSecond = shipHullDamagePerSecond;
         this.shipShieldDamagePerSecond = shipShieldDamagePerSecond;
         this.isShipDead = false;
@@ -48,26 +49,44 @@ public class Ship {
         this.targetStatus = targetStatus;
     }
 
-    public void takeDamage(int HullDamage, int ShieldDamage) {
-        if (shipShieldCurrent == 0) {
-            shipHullCurrent = -HullDamage;
+    public void takeDamage(int HullDamage, int ShieldDamage){
+        if(shipShieldCurrent == 0){
+            shipHullCurrent =- HullDamage;
         }
-        shipShieldCurrent = -ShieldDamage;
-        if (shipHullCurrent <= 0) {
+        shipShieldCurrent =- ShieldDamage;
+        if(shipHullCurrent <= 0){
             isShipDead = true;
         }
     }
 
-    public void setMovingTarget(XYZcoord shipDestination) {
+    public void setMovingTarget(XYZcoord shipDestination){
         this.shipDestination = shipDestination;
-        distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+        distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location,shipDestination);
     }
 
-    public void moveShip() {
-        XYZcoord newPosition = Util.getPositionGivenSpeedAndVelocityDirection(this.shipMovementSpeed, this.location, this.shipDestination);
-
-
+    public void moveShip(){
+        XYZcoord newPosition = Util.getPositionGivenSpeedAndVelocityDirection(this.shipMovementSpeed,this.location,this.shipDestination);
+        
+        if(!this.isShipTraveling){
+        	this.isShipTraveling = true;
+        	distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+        	this.distanceToTargetCurrent = distanceToTargetTotal;
+        } else {
+        	distanceToTargetCurrent = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+        }
+        if(newPosition.equals(this.shipDestination)){
+        	this.isShipTraveling = false;
+        	this.shipOrigin = newPosition;
+        }
+        this.location = newPosition;
     }
+    
+    public boolean isShipTravelling(){
+    	return isShipTraveling;
+    }
+
+
+
 
 
 }

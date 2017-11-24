@@ -24,6 +24,7 @@ public class MainEngine {
         galaxyMapTop.generateGalaxy();
 
         mainTicker = new Timer("MainTimer",false);
+        moveShips = new Timer("MoveShips",false);
         calculateFights = new Timer("Fight Timer");
     }
 
