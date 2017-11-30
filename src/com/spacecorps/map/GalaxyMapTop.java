@@ -18,7 +18,7 @@ public class GalaxyMapTop {
 
 
     private static double CHANCEOFSTARPROBABILITY = 0.009;
-    public static int GALAXYGRIDSIZE = 100;
+    public static int GALAXYGRIDSIZE = 250;
     public static int HALFPOINT = (GALAXYGRIDSIZE / 2) - 1;
     private static double CENTREOFMAPSQRT;
     private static int GALACTICWEEKINTICKS = 6048000;
@@ -84,6 +84,7 @@ public class GalaxyMapTop {
                 }
             }
         }
+
         for (int i = 0; i < GALAXYGRIDSIZE; i++) {
             for (int j = 0; j < GALAXYGRIDSIZE; j++) {
                 for (int k = 0; k < GALAXYGRIDSIZE; k++) {

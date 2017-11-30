@@ -27,9 +27,9 @@ public class XYZcoord {
     }
 
     public XYZcoord(double x, double y, double z){
-        this.xExact = x;
-        this.yExact = y;
-        this.zExact = z;
+        this.xExact = Util.roundDoubleToTwoDecimalPlaces(x);
+        this.yExact = Util.roundDoubleToTwoDecimalPlaces(y);
+        this.zExact = Util.roundDoubleToTwoDecimalPlaces(z);
         this.xAbsolute = (int)x;
         this.yAbsolute = (int)y;
         this.zAbsolute = (int)z;
@@ -41,9 +41,9 @@ public class XYZcoord {
         this.xExact = x[0];
         this.yExact = x[1];
         this.zExact = x[2];
-        this.xAbsolute = (int)x[0];
-        this.yAbsolute = (int)x[1];
-        this.zAbsolute = (int)x[2];
+        this.xAbsolute = (int) Util.roundDoubleToTwoDecimalPlaces(x[0]);
+        this.yAbsolute = (int) Util.roundDoubleToTwoDecimalPlaces(x[1]);
+        this.zAbsolute = (int) Util.roundDoubleToTwoDecimalPlaces(x[2]);
         this.calculatePositionFromCentre();
 
     }

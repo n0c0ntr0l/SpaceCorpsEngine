@@ -1,5 +1,7 @@
 package com.spacecorps.map;
 
+import java.text.DecimalFormat;
+
 public class Util {
 
 
@@ -32,6 +34,21 @@ public class Util {
         double speedCoefficient = Math.abs(resultMatrix[0]) + Math.abs(resultMatrix[1]) + Math.abs(resultMatrix[2]);
         double coefficient = speed / speedCoefficient;
         double result[] = {matrixA[0] + resultMatrix[0]*coefficient,matrixA[1] + resultMatrix[1]*coefficient,matrixA[2] + resultMatrix[2]*coefficient};
+        result = roundDoubleArrayToTwoDecimalPlaces(result);
         return new XYZcoord(result);
     }
+
+    public static double roundDoubleToTwoDecimalPlaces(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+    }
+
+    public static double[] roundDoubleArrayToTwoDecimalPlaces(double[] d) {
+        double[] result = new double[d.length];
+        for (int i = 0; i < d.length; i++) {
+            result[i] = roundDoubleToTwoDecimalPlaces(d[i]);
+        }
+        return result;
+    }
+
 }

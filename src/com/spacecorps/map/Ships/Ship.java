@@ -39,7 +39,7 @@ public class Ship {
         this.shipShieldTotal = shipShieldTotal;
         this.shipHullCurrent = shipHullTotal;
         this.shipShieldCurrent = shipShieldTotal;
-        location = new XYZcoord(x,y,z);
+        this.location = new XYZcoord(x, y, z);
         this.shipHullDamagePerSecond = shipHullDamagePerSecond;
         this.shipShieldDamagePerSecond = shipShieldDamagePerSecond;
         this.isShipDead = false;
@@ -49,8 +49,8 @@ public class Ship {
     }
 
     private void addShipToSector(XYZcoord coord) {
-        Sector sectorFromLocation = mainCallBack.getSector(coord.getxAbsolute(), coord.getyAbsolute(), coord.getzAbsolute());
-        sectorFromLocation.addShipToSector(this);
+        currentShipSector = mainCallBack.getSector(coord.getxAbsolute(), coord.getyAbsolute(), coord.getzAbsolute());
+        currentShipSector.addShipToSector(this);
     }
 
     private void removeShipFromSector() {
@@ -97,16 +97,17 @@ public class Ship {
         	this.shipOrigin = newPosition;
             mainCallBack.removeShipFromListOfMovingShip(this);
             if (MainEngine.LOGLEVEL > 0) {
-                System.out.println(this.getShipID() + " has arrived at destination");
+                System.out.println(this.getShipID() + " has arrived at destination" + newPosition.getxExact() + "," + newPosition.getyExact() + "," + newPosition.getzExact());
             }
         }
         if (!newPosition.equals(location)) {
-            this.removeShipFromSector();
-            this.addShipToSector(newPosition);
             if (MainEngine.LOGLEVEL > 0) {
-                System.out.println(this.getShipID() + " has moved from sector " + location.getxAbsolute() + "," + location.getyAbsolute() + "," + location.getzAbsolute() +
-                        " to " + newPosition.getxAbsolute() + "," + newPosition.getyAbsolute() + "," + newPosition.getzAbsolute());
+                //System.out.println(this.getShipID() + " has moved from sector " + location.getxAbsolute() + "," + location.getyAbsolute() + "," + location.getzAbsolute() +
+                //        " to " + newPosition.getxAbsolute() + "," + newPosition.getyAbsolute() + "," + newPosition.getzAbsolute());
+                //System.out.println(this.getShipID() + " has moved from sector " + location.toString() + " to " + newPosition.toString());
             }
+            this.currentShipSector.removeShipFromSector(this);
+            this.addShipToSector(newPosition);
         }
         this.location = newPosition;
     }

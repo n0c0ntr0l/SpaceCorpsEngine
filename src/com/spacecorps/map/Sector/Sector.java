@@ -1,5 +1,6 @@
 package com.spacecorps.map.Sector;
 
+import com.spacecorps.map.MainEngine;
 import com.spacecorps.map.Ships.Ship;
 import com.spacecorps.map.XYZcoord;
 import com.spacecorps.map.planet.ElementalResources;
@@ -17,14 +18,14 @@ public class Sector {
     private XYZcoord location;
     protected StarProperties starProperties;
     protected ArrayList<Planet> planetArrayList;
-    private ArrayList<Ship> listOfShipsInSector;
+    private volatile ArrayList<Ship> listOfShipsInSector;
     private HashMap<String, Ship> mapOfShipsInSector;
     private boolean emptySector;
+    private boolean shipsInSector;
     private int numberOfRockPlanets;
     private int numberOfAsteroidBelts;
     private int numberOfGasPlanets;
     private int numOfPlanets;
-
 
 
     public boolean isEmptySector() {
@@ -65,7 +66,7 @@ public class Sector {
     public Sector(int x, int y, int z, boolean emptySector) {
         this.location = new XYZcoord(x, y, z);
         this.emptySector = emptySector;
-        this.listOfShipsInSector = new ArrayList<>();
+//        this.listOfShipsInSector = new ArrayList<>();
         if (!emptySector) {
             planetArrayList = new ArrayList<>();
         }
@@ -80,6 +81,7 @@ public class Sector {
             generatePlanets();
         }
     }
+
 
     private void generatePlanets() {
         double randomSeed;
@@ -177,13 +179,27 @@ public class Sector {
     }
 
     public void addShipToSector(Ship ship) {
+        if (listOfShipsInSector == null) {
+            listOfShipsInSector = new ArrayList<>();
+
+            if (MainEngine.LOGLEVEL > 2) {
+                System.out.println("Sector" + location.xAbsolute + "," + location.yAbsolute + "," + location.zAbsolute +
+                        " has arraylist initialised to add " + ship.getShipID() + " to the sector");
+            }
+        }
         listOfShipsInSector.add(ship);
     }
 
     public void removeShipFromSector(Ship ship) {
-        listOfShipsInSector.remove(ship);
+        if (listOfShipsInSector != null) {
+            listOfShipsInSector.remove(ship);
+            if (listOfShipsInSector.size() == 0) {
+                listOfShipsInSector = null;
+            }
+        } else {
+            System.out.println("warning null sector removal at " + location.xAbsolute + "," + location.yAbsolute + "," + location.zAbsolute);
+        }
     }
-
 
 
 }

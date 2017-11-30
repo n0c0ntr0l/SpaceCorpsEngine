@@ -86,7 +86,7 @@ public class MainEngine {
         main.addPlayer("Player1");
         main.addPlayer("Player2");
         main.addShip("Player1");
-        main.addShip("Player2");
+        // main.addShip("Player2");
         main.startGame();
         main.sendAllShipsToCenter();
     }
