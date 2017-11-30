@@ -122,5 +122,8 @@ public class XYZcoord {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "X: " + this.xExact + " Y: " + this.yExact + " Z: " + this.zExact;
+    }
 }

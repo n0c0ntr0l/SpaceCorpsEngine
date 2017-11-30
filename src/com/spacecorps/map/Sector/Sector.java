@@ -26,6 +26,7 @@ public class Sector {
     private int numOfPlanets;
 
 
+
     public boolean isEmptySector() {
         return emptySector;
     }
@@ -64,6 +65,7 @@ public class Sector {
     public Sector(int x, int y, int z, boolean emptySector) {
         this.location = new XYZcoord(x, y, z);
         this.emptySector = emptySector;
+        this.listOfShipsInSector = new ArrayList<>();
         if (!emptySector) {
             planetArrayList = new ArrayList<>();
         }
@@ -173,5 +175,15 @@ public class Sector {
         }
         return 1;
     }
+
+    public void addShipToSector(Ship ship) {
+        listOfShipsInSector.add(ship);
+    }
+
+    public void removeShipFromSector(Ship ship) {
+        listOfShipsInSector.remove(ship);
+    }
+
+
 
 }

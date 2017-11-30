@@ -1,6 +1,8 @@
 package com.spacecorps.map.Ships;
 
+import com.spacecorps.map.MainEngine;
 import com.spacecorps.map.Players.Player;
+import com.spacecorps.map.Sector.Sector;
 import com.spacecorps.map.Util;
 import com.spacecorps.map.XYZcoord;
 
@@ -21,13 +23,16 @@ public class Ship {
     private Ship targetShip;
     private boolean isShipDead;
     private double distanceToTargetTotal;
-    private double distanceToTargetCurrent;
+    private double distanceToTargetCurrent; //to be used to state how far from sector
+    private Sector currentShipSector;
+
+    private final MainEngine mainCallBack;
 
 
 
     private TargetStatus targetStatus;
 
-    public Ship(String shipID, Player shipOwner, int x, int y, int z, int shipHullTotal, int shipShieldTotal, int shipHullDamagePerSecond, int shipShieldDamagePerSecond, int shipMovementSpeed){
+    public Ship(String shipID, Player shipOwner, int x, int y, int z, int shipHullTotal, int shipShieldTotal, int shipHullDamagePerSecond, int shipShieldDamagePerSecond, double shipMovementSpeed, MainEngine mainCallBack) {
         this.shipID = shipID;
         this.shipOwner = shipOwner;
         this.shipHullTotal = shipHullTotal;
@@ -39,6 +44,18 @@ public class Ship {
         this.shipShieldDamagePerSecond = shipShieldDamagePerSecond;
         this.isShipDead = false;
         this.shipMovementSpeed = shipMovementSpeed;
+        this.mainCallBack = mainCallBack;
+        addShipToSector(location);
+    }
+
+    private void addShipToSector(XYZcoord coord) {
+        Sector sectorFromLocation = mainCallBack.getSector(coord.getxAbsolute(), coord.getyAbsolute(), coord.getzAbsolute());
+        sectorFromLocation.addShipToSector(this);
+    }
+
+    private void removeShipFromSector() {
+        Sector sectorFromLocation = mainCallBack.getSector(location.getxAbsolute(), location.getyAbsolute(), location.getzAbsolute());
+        sectorFromLocation.removeShipFromSector(this);
     }
 
     public TargetStatus getTargetStatus() {
@@ -62,11 +79,12 @@ public class Ship {
     public void setMovingTarget(XYZcoord shipDestination){
         this.shipDestination = shipDestination;
         distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location,shipDestination);
+        mainCallBack.addShipToListOfMovingShips(this);
     }
 
     public void moveShip(){
         XYZcoord newPosition = Util.getPositionGivenSpeedAndVelocityDirection(this.shipMovementSpeed,this.location,this.shipDestination);
-        
+        double distanceToTargetCurrent;
         if(!this.isShipTraveling){
         	this.isShipTraveling = true;
         	distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
@@ -77,6 +95,18 @@ public class Ship {
         if(newPosition.equals(this.shipDestination)){
         	this.isShipTraveling = false;
         	this.shipOrigin = newPosition;
+            mainCallBack.removeShipFromListOfMovingShip(this);
+            if (MainEngine.LOGLEVEL > 0) {
+                System.out.println(this.getShipID() + " has arrived at destination");
+            }
+        }
+        if (!newPosition.equals(location)) {
+            this.removeShipFromSector();
+            this.addShipToSector(newPosition);
+            if (MainEngine.LOGLEVEL > 0) {
+                System.out.println(this.getShipID() + " has moved from sector " + location.getxAbsolute() + "," + location.getyAbsolute() + "," + location.getzAbsolute() +
+                        " to " + newPosition.getxAbsolute() + "," + newPosition.getyAbsolute() + "," + newPosition.getzAbsolute());
+            }
         }
         this.location = newPosition;
     }
@@ -85,8 +115,11 @@ public class Ship {
     	return isShipTraveling;
     }
 
+    public String getShipID() {
+        return this.shipID;
+    }
 
-
-
-
+    public XYZcoord getLocation() {
+        return location;
+    }
 }

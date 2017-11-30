@@ -9,10 +9,25 @@ public class Player {
     private String playerName;
     private ArrayList<Ship> listOfOwnedShips;
 
-    public Player(String playerID){
+    public Player(String playerID, String playerName) {
         this.playerID = playerID;
+        this.playerName = playerName;
         listOfOwnedShips = new ArrayList<>();
     }
+
+    public Player(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public void addShip(Ship ship) {
+        listOfOwnedShips.add(ship);
+    }
+
+    public void removeShip(Ship ship) {
+        listOfOwnedShips.remove(ship);
+    }
+
+
 
 
 }

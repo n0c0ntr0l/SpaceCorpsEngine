@@ -1,4 +1,4 @@
-package com.spacecorps.map;
+package com.spacecorps.map.Tickers;
 
 import java.util.TimerTask;
 

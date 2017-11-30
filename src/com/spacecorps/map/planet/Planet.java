@@ -11,6 +11,9 @@ import static com.spacecorps.map.planet.PlanetType.ROCK;
 
 public class Planet {
     PlanetType planetType;
+    private double planetPositionX;
+    private double planetPositionY;
+    private double planetOrbitalSpeed;
 
     public HashMap<ElementalResources, Integer> getResourceNumbers() {
         return resourceNumbers;

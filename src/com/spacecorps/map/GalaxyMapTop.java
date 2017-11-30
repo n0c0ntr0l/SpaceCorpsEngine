@@ -13,14 +13,15 @@ import static com.spacecorps.map.planet.ElementalResources.*;
 
 public class GalaxyMapTop {
 
-    Sector[][][] sectorMatrix;
+    private Sector[][][] sectorMatrix;
     private HashMap<ElementalResources, Long> totalResourcesInGalaxyMap;
 
 
     private static double CHANCEOFSTARPROBABILITY = 0.009;
-    public static int GALAXYGRIDSIZE = 250;
+    public static int GALAXYGRIDSIZE = 100;
     public static int HALFPOINT = (GALAXYGRIDSIZE / 2) - 1;
     private static double CENTREOFMAPSQRT;
+    private static int GALACTICWEEKINTICKS = 6048000;
 
 
     public int getRockPlanetCount() {
@@ -127,6 +128,10 @@ public class GalaxyMapTop {
         System.out.println("Total number of TITANIUM in galaxy: " + totalResourcesInGalaxyMap.get(TITANIUM));
         System.out.println("Total number of URANIUM in galaxy: " + totalResourcesInGalaxyMap.get(URANIUM));
         System.out.println("Total number of POLONIUM in galaxy: " + totalResourcesInGalaxyMap.get(POLONIUM));
+    }
+
+    public Sector[][][] getSectorMatrix() {
+        return sectorMatrix;
     }
 
     public static void main(String[] args) {
