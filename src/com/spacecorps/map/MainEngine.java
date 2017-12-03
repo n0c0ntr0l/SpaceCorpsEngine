@@ -25,6 +25,7 @@ public class MainEngine {
     private volatile ArrayList<Ship> listOfAllShips;
     private volatile ConcurrentHashMap<String, Ship> mapOfAllShips;
     protected volatile ArrayList<Ship> listOfAllMovingShips;
+
     private Timer mainTicker;
     private Timer calculateFights;
     private Timer moveShips;
@@ -65,6 +66,12 @@ public class MainEngine {
         }
     }
 
+    public void addSectorToHotSectors(Sector sector) {
+        galaxyMapTop.getListOfHotSectors().add(sector);
+    }
+
+
+
     public Sector[][][] getSectorMatrix() {
         return sectorMatrix;
     }
@@ -86,7 +93,7 @@ public class MainEngine {
         main.addPlayer("Player1");
         main.addPlayer("Player2");
         main.addShip("Player1");
-        // main.addShip("Player2");
+        main.addShip("Player2");
         main.startGame();
         main.sendAllShipsToCenter();
     }

@@ -6,6 +6,10 @@ import com.spacecorps.map.Sector.Sector;
 import com.spacecorps.map.Util;
 import com.spacecorps.map.XYZcoord;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Ship {
     private XYZcoord location;
     private final String shipID;
@@ -25,6 +29,8 @@ public class Ship {
     private double distanceToTargetTotal;
     private double distanceToTargetCurrent; //to be used to state how far from sector
     private Sector currentShipSector;
+    private long endOfJourneyTime;
+    private long startJourneyTime;
 
     private final MainEngine mainCallBack;
 
@@ -87,7 +93,8 @@ public class Ship {
         double distanceToTargetCurrent;
         if(!this.isShipTraveling){
         	this.isShipTraveling = true;
-        	distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
+            setStartJourneyTime();
+            distanceToTargetTotal = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
         	this.distanceToTargetCurrent = distanceToTargetTotal;
         } else {
         	distanceToTargetCurrent = Util.calculateDistanceBetweenTwoPoint(location, shipDestination);
@@ -96,8 +103,10 @@ public class Ship {
         	this.isShipTraveling = false;
         	this.shipOrigin = newPosition;
             mainCallBack.removeShipFromListOfMovingShip(this);
+            setEndOfJourneyTime();
             if (MainEngine.LOGLEVEL > 0) {
-                System.out.println(this.getShipID() + " has arrived at destination" + newPosition.getxExact() + "," + newPosition.getyExact() + "," + newPosition.getzExact());
+                System.out.println(this.getShipID() + " has arrived at destination" + newPosition.xAbsolute + "," + newPosition.getyAbsolute() + "," + newPosition.getzAbsolute());
+                System.out.println(this.getShipID() + " took " + numberOfSecondsTravelled() + " seconds to reach the destination");
             }
         }
         if (!newPosition.equals(location)) {
@@ -109,7 +118,24 @@ public class Ship {
             this.currentShipSector.removeShipFromSector(this);
             this.addShipToSector(newPosition);
         }
+        if (this.currentShipSector.getNumOfShipsInSector() > 1) {
+            this.mainCallBack.addSectorToHotSectors(this.currentShipSector);
+        }
         this.location = newPosition;
+    }
+
+    private void setStartJourneyTime() {
+        Calendar cal = Calendar.getInstance();
+        this.startJourneyTime = cal.getTime().getTime();
+    }
+
+    private void setEndOfJourneyTime() {
+        Calendar cal = Calendar.getInstance();
+        this.endOfJourneyTime = cal.getTimeInMillis();
+    }
+
+    private int numberOfSecondsTravelled() {
+        return (int) ((this.endOfJourneyTime - this.startJourneyTime) / 1000);
     }
     
     public boolean isShipTravelling(){

@@ -26,6 +26,7 @@ public class Sector {
     private int numberOfAsteroidBelts;
     private int numberOfGasPlanets;
     private int numOfPlanets;
+    private int numOfShipsInSector = 0;
 
 
     public boolean isEmptySector() {
@@ -187,18 +188,24 @@ public class Sector {
                         " has arraylist initialised to add " + ship.getShipID() + " to the sector");
             }
         }
+        numOfShipsInSector++;
         listOfShipsInSector.add(ship);
     }
 
     public void removeShipFromSector(Ship ship) {
         if (listOfShipsInSector != null) {
             listOfShipsInSector.remove(ship);
+            numOfShipsInSector--;
             if (listOfShipsInSector.size() == 0) {
                 listOfShipsInSector = null;
             }
         } else {
             System.out.println("warning null sector removal at " + location.xAbsolute + "," + location.yAbsolute + "," + location.zAbsolute);
         }
+    }
+
+    public int getNumOfShipsInSector() {
+        return numOfShipsInSector;
     }
 
 

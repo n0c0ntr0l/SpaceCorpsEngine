@@ -4,10 +4,7 @@ import com.spacecorps.map.Sector.Sector;
 import com.spacecorps.map.planet.ElementalResources;
 import com.spacecorps.map.planet.ElementalResourcesFactoryConstructors;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static com.spacecorps.map.planet.ElementalResources.*;
 
@@ -15,6 +12,7 @@ public class GalaxyMapTop {
 
     private Sector[][][] sectorMatrix;
     private HashMap<ElementalResources, Long> totalResourcesInGalaxyMap;
+    private ArrayList<Sector> listOfHotSectors; //this arraylist contains sectors that have multiple ships to allow for the fightTimerTask to see if any battles are to occur
 
 
     private static double CHANCEOFSTARPROBABILITY = 0.009;
@@ -96,6 +94,8 @@ public class GalaxyMapTop {
             }
         }
 
+        listOfHotSectors = new ArrayList<>();
+
 
     }
 
@@ -129,6 +129,10 @@ public class GalaxyMapTop {
         System.out.println("Total number of TITANIUM in galaxy: " + totalResourcesInGalaxyMap.get(TITANIUM));
         System.out.println("Total number of URANIUM in galaxy: " + totalResourcesInGalaxyMap.get(URANIUM));
         System.out.println("Total number of POLONIUM in galaxy: " + totalResourcesInGalaxyMap.get(POLONIUM));
+    }
+
+    public ArrayList<Sector> getListOfHotSectors() {
+        return listOfHotSectors;
     }
 
     public Sector[][][] getSectorMatrix() {
