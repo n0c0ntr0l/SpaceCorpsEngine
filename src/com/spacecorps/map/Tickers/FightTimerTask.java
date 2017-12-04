@@ -25,9 +25,12 @@ public class FightTimerTask extends TimerTask{
     class BattleThreadInnerClass implements Runnable {
         private volatile ArrayList<Sector> listOfSectors;
 
+
         @Override
         public void run() {
 
         }
+
+
     }
 }
