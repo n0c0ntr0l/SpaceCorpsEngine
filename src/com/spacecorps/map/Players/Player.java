@@ -8,6 +8,9 @@ public class Player {
     private String playerID;
     private String playerName;
     private ArrayList<Ship> listOfOwnedShips;
+    private long amountOfMoney;
+    private String nameOfCompany;
+    private double percentageOfStockPublicallyAvailable;
 
     public Player(String playerID, String playerName) {
         this.playerID = playerID;
