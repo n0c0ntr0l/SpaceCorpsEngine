@@ -149,4 +149,8 @@ public class Ship {
     public XYZcoord getLocation() {
         return location;
     }
+    
+    public Player getPlayer(){
+        return this.shipOwner;
+    }
 }
