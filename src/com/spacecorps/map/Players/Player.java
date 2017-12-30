@@ -11,6 +11,7 @@ public class Player {
     private long amountOfMoney;
     private String nameOfCompany;
     private double percentageOfStockPublicallyAvailable;
+    private double totalAmountOfMoneyOwnedByPlayer;
 
     public Player(String playerID, String playerName) {
         this.playerID = playerID;
